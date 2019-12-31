@@ -6,10 +6,6 @@ ul.ajax{
     list-style: none;
 }
 
-img.borders{
-    border-radius: 10px;
-}
-
 body {
   background: #fafafa;
   color: #333333;
@@ -86,4 +82,14 @@ a.article-title:hover {
 
 .account-heading {
   font-size: 2.5rem;
+  color: #303030;
+}
+
+input.cityname {
+  border-radius: 10px;
+}
+
+div.center {
+  width: 100%;
+  text-align: center;
 }

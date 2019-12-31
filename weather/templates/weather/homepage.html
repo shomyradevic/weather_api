@@ -1,47 +1,9 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends "weather/base.html" %}
+{% block content %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'weather/wstyle.css' %}">
-    <title>SNA</title>
-</head>
+<div class="center">
+    <p class="account-heading">See what's weather like!</p>
+    <input class="cityname" type="text" id="cityQ" placeholder="Type in city..." size="30%"/>
+</div>
 
-<body>
-<header class="site-header">
-  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-    <div class="container">
-      <a class="navbar-brand mr-4" href="{% url 'homepage' %}">Weather-API-APP</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarToggle">
-        <div class="navbar-nav mr-auto">
-          <a class="nav-item nav-link" href="{% url 'homepage' %}">Home</a>
-            <a class="nav-item nav-link" href="#">Search city</a>
-        </div>
-      </div>
-    </div>
-  </nav>
-</header>
-
-<main role="main" class="container">
-  <div class="row">
-    <div class="col-md-8">
-    {% block content %}{% endblock content %}
-    </div>
-  </div>
-</main>
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-</body>
-</html>
+{% endblock content %}
