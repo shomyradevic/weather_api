@@ -3,9 +3,11 @@ from requests import get
 from json import load, loads
 from django.http import JsonResponse
 from datetime import datetime
+from time import perf_counter
 
 
 API_KEY = ""
+#url = "http://api.openweathermap.org/data/2.5/weather?id=" + queryID + "&APPID=" + API_KEY
 
 
 def log(value: str):
@@ -26,16 +28,25 @@ def homepage(request):
 def search(request):
     # Point is to get city from pre-downloaded json file and then send that to the url to get temperature
     global API_KEY
-    queryCity, data = "", {"result": ""}
-    url = "http://api.openweathermap.org/data/2.5/weather?q=" + queryCity + "&APPID=" + API_KEY
-    response = get(url=url)
-    data["result"] = loads(response.text)
+    queryID, data = "", {"result": "empty set"}
+    q = request.GET.get("query")
+    if q:
+        data["result"] = city_json(query=q)
+    else:
+        data["result"] = []
     return JsonResponse(data=data)
 
 def city_json(query: str):
-    five_cities = []
+    five_cities = [] # list of dicts: id, name
+    added = []
     with open(file="city.json", mode="r", encoding="utf-8") as json:
         j = load(json)
         json.close()
         for city in j:
-            pass
+            cn = city["name"]
+            if cn.lower().find(query, 0, len(cn)) >= 0 and cn not in added:
+                added.append(cn)
+                five_cities.append(dict({"id": city["id"], "name": city["name"]}))
+            if len(five_cities) == 5:
+                return five_cities
+    return five_cities

@@ -49,7 +49,14 @@
           data: {"query": query},
           dataType: "JSON",
           success: function(response){
-              console.log(response.result);
+              if(response.result != "empty set"){
+                var show = "<h4>Results: </h4><br>";
+                for(i = 0;i < response.result.length;i++){
+                    show += "<a href='#'>" + response.result[i]["name"] + "</a><br>";
+                };
+                //$("searchR").html(show);
+                document.getElementById("searchR").innerHTML = show;
+              }
           },
           error: function(error){
               console.log(error);
