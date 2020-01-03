@@ -1,2 +1,2 @@
 # weather_api
-Django weather application.
+Django weather application development in progress.
