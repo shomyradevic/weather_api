@@ -15,6 +15,7 @@ def log(value: str):
         f.write(str(datetime.now()) + " - " + value + "\n")
         f.close()
 
+
 def set_key():
     global API_KEY
     with open(file="config.json", mode="r", encoding="utf-8") as f:
@@ -22,8 +23,10 @@ def set_key():
         API_KEY = json_cont["API_KEY"]
         f.close()
 
+
 def homepage(request):
     return render(request=request, template_name='weather/homepage.html')
+
 
 def search(request):
     # Point is to get city from pre-downloaded json file and then send that to the url to get temperature
@@ -36,10 +39,12 @@ def search(request):
         data["result"] = []
     return JsonResponse(data=data)
 
+
 def city_json(query: str):
     five_cities = [] # list of dicts: id, name
     added = []
     with open(file="city.json", mode="r", encoding="utf-8") as json:
+        # maybe open file immediately when run server
         j = load(json)
         json.close()
         for city in j:
