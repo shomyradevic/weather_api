@@ -1,42 +1,31 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'weather/wstyle.css' %}">
-    <title>Weather APP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather-APPI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <link rel="stylesheet" href="{% static 'weather/wstyle.css' %}"/>
 </head>
-
 <body>
-<header class="site-header">
-  <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-    <div class="container">
-      <a class="navbar-brand mr-4" href="{% url 'homepage' %}">Weather-API-APP</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarToggle">
-        <div class="navbar-nav mr-auto">
-          <a class="nav-item nav-link" href="{% url 'homepage' %}">Home</a>
-            <a class="nav-item nav-link" href="#">Search city</a>
-        </div>
+  <section class="hero is-primary bg-steel">
+      <div class="hero-body">
+          <div class="container">
+              <h1 class="title">What's the weather like?</h1>
+          </div>
       </div>
-    </div>
-  </nav>
-</header>
-
-<main role="main" class="container">
-  <div class="row">
-    {% block javascript %}{% endblock javascript %}
-      {% block content %}{% endblock content %}
-  </div>
-</main>
-
+  </section>
+  <section class="section">
+      <div class="container">
+          <div class="center">
+            <input class="cityname" type="text" id="cityQ" placeholder="Type in city..." size="60%"/><br><br>
+              {% block content %} {% endblock %}
+          </div>
+      </div>
+  </section>
+</body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -52,7 +41,8 @@
               if(response.result != "empty set"){
                 var show = "<h4>Results: </h4><br>";
                 for(i = 0;i < response.result.length;i++){
-                    show += "<a href='#'>" + response.result[i]["name"] + "</a><br>";
+                    show += "<div class='search-div'><a class='search-link' href='#'>" + 
+                    response.result[i]["name"] + "</a><br></div>";
                 };
                 //$("searchR").html(show);
                 document.getElementById("searchR").innerHTML = show;
@@ -64,5 +54,4 @@
       });
   });
 </script>
-</body>
 </html>

@@ -1,0 +1,2 @@
+-Code classificates cities in pomcity.json and city.json without errors.
+-0.6s - runtime for os.walk('json_files'), file.find('bel') >= 0 and printing it.

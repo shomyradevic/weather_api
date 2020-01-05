@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from requests import get
-from json import load, loads
+from json import load
 from django.http import JsonResponse
 from datetime import datetime
-from time import perf_counter
+from .search import search_query
 
 
 API_KEY = ""
@@ -34,24 +34,7 @@ def search(request):
     queryID, data = "", {"result": "empty set"}
     q = request.GET.get("query")
     if q:
-        data["result"] = city_json(query=q)
+        data["result"] = search_query(query=q)
     else:
         data["result"] = []
     return JsonResponse(data=data)
-
-
-def city_json(query: str):
-    five_cities = [] # list of dicts: id, name
-    added = []
-    with open(file="city.json", mode="r", encoding="utf-8") as json:
-        # maybe open file immediately when run server
-        j = load(json)
-        json.close()
-        for city in j:
-            cn = city["name"]
-            if cn.lower().find(query, 0, len(cn)) >= 0 and cn not in added:
-                added.append(cn)
-                five_cities.append(dict({"id": city["id"], "name": city["name"]}))
-            if len(five_cities) == 5:
-                return five_cities
-    return five_cities
