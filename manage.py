@@ -19,3 +19,9 @@ def main():
 
 if __name__ == '__main__':
     main()
+    """
+    from requests import get
+    response = get("http://api.openweathermap.org/data/2.5/weather?q=Belgrade&APPID=5820dd9043459f550668c93702b450e7")
+    from weather.views import log
+    log(response.text)
+    """

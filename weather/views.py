@@ -4,10 +4,10 @@ from json import load
 from django.http import JsonResponse
 from datetime import datetime
 from .search import search_query
+from django.contrib.messages import warning
 
 
 API_KEY = ""
-#url = "http://api.openweathermap.org/data/2.5/weather?id=" + queryID + "&APPID=" + API_KEY
 
 
 def log(value: str):
@@ -38,3 +38,15 @@ def search(request):
     else:
         data["result"] = []
     return JsonResponse(data=data)
+
+
+def detail(request, id: int):
+    data = {"result": "", "icon": ""}
+    response = get("http://api.openweathermap.org/data/2.5/weather?id=" + str(id) + "&APPID=" + API_KEY)
+    if response.status_code == 200:
+        data["result"] = eval(response.text)
+        data["icon"] = "http://openweathermap.org/img/w/" + data["result"]["weather"][0]["icon"] + ".png"
+        return render(request=request, template_name="weather/detail.html", context={"data": data})
+    else:
+        warning(request=request, message=eval(response.text)["message"])
+        return render(request=request, template_name="weather/homepage.html")

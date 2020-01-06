@@ -1,2 +1,8 @@
--Code classificates cities in pomcity.json and city.json without errors.
--0.6s - runtime for os.walk('json_files'), file.find('bel') >= 0 and printing it.
+-in navigation, should be client location weather ( geo recognize )
+- Kelvin to Celsius = temp_in_kelvin - 273.15
+792680 - Belgrade, rs ID
+- There are several Belgrades around the world. There cannot be two or more files with same name. Filenames are
+    identical as city name. Next Belgrade will always override the Belgrade before that. That is not acceptable.    
+- old json_files =  161,810 files
+- new json_files = 168,647 files -> It works!!! Belgrade, RS/BE/US exists!
+- Code classificates cities in city.json without errors.

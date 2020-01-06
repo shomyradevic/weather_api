@@ -4,23 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Weather-APPI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'weather/wstyle.css' %}"/>
 </head>
 <body>
   <section class="hero is-primary bg-steel">
       <div class="hero-body">
           <div class="container">
-              <h1 class="title">What's the weather like?</h1>
+              <h1 class="title">What's the temperature in your city?</h1>
           </div>
       </div>
   </section>
   <section class="section">
-      <div class="container">
+      <div class="container cont">
+
+        {% for msg in messages %}
+            <div id="alr" class="alert alert-{{ msg.tags }}">
+                <p style="text-align: center;">{{ msg|capfirst }}.</p>
+            </div>
+        {% endfor %}
+        <br>
           <div class="center">
-            <input class="cityname" type="text" id="cityQ" placeholder="Type in city..." size="60%"/><br><br>
+            <input class="cityname" type="text" id="cityQ" placeholder="Type in city..." size="50%"/><br><br>
+            <div id="searchR"></div>
               {% block content %} {% endblock %}
           </div>
       </div>
@@ -39,13 +46,14 @@
           dataType: "JSON",
           success: function(response){
               if(response.result != "empty set"){
-                var show = "<h4>Results: </h4><br>";
+                var show = "";
                 for(i = 0;i < response.result.length;i++){
-                    show += "<div class='search-div'><a class='search-link' href='#'>" + 
-                    response.result[i]["name"] + "</a><br></div>";
+                    var link = "{% url 'detail' id=12345 %}".replace(/12345/, response.result[i]['id'].toString());
+                    show += "<div class='search-div'>";
+                    show += "<a class='search-link' href=\"" + link + "\">" + response.result[i]["name"];
+                    show += "</a><br></div><br>";
                 };
-                //$("searchR").html(show);
-                document.getElementById("searchR").innerHTML = show;
+                $("#searchR").html(show);
               }
           },
           error: function(error){

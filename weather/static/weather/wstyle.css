@@ -86,14 +86,46 @@ a.article-title:hover {
 
 input.cityname {
   border-radius: 10px;
+  font-size: large;
 }
 
 div.center {
-  width: 40%;
+  width: 100%;
   text-align: center;
 }
 
-.search-link {
+.search-link{
+  font-family: arial;
   text-decoration: none;
-  color: black;
+  color: #005b88;
+  width: 100%;
+}
+
+.search-link:hover {
+  color: #00aaff;
+}
+
+.search-div {
+  border-radius: 10%;
+  background-color: #ffff80;
+  width: 20%;
+  height: 50px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+}
+
+div#searchR {
+  height: 100%;
+}
+
+.myBox {
+  margin: 0 auto;
+  width: 30%;
+}
+
+#alr {
+  border-radius: 5%;
+  width: 33%;
+  margin: 0 auto;
 }

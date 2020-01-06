@@ -1,0 +1,20 @@
+{% extends "weather/base.html" %}
+{% block content %}
+
+<div class="box myBox">
+    <article class="media">
+        <div class="media-left">
+            <figure class="image is-50x50">
+                <img src="{{ data.icon }}" alt="Image">
+            </figure>
+        </div>
+        <div>
+            <span class="title">{{ data.result.name }}, {{ data.result.sys.country }}</span>
+            <br>
+            <span class="subtitle">{{ data.result.main.temp|add:'-273' }}</span>
+            <br> {{ data.result.weather.0.description|capfirst }}
+        </div>
+    </article>
+</div>
+
+{% endblock %}

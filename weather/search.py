@@ -10,7 +10,7 @@ def append_item(o: list, filename: str, directory='dir10'):
               encoding='utf-8') as f:
         js = load(f)
         f.close()
-        new.append(dict({'id': js['id'], 'name': js['name']}))
+        new.append(dict({'id': js['id'], 'name': js['name'] + ", " + js["country"]}))
     return new
 
 
@@ -28,7 +28,7 @@ def search_query(query: str):
             if first_letter in dir_let[key]:
                 fol = key
                 for file in listdir(path.join('json_files', fol)):
-                    if len(found) == 8:
+                    if len(found) == 6:
                         return found
                     if len(q) > 1:
                         if file.lower().find(q, 0, len(file)) >= 0:
@@ -38,7 +38,7 @@ def search_query(query: str):
                             found = append_item(o=found, filename=file, directory=fol)
         if fol == 'dir10':
             for file in listdir(path.join('json_files', 'dir10')):
-                if len(found) == 8:
+                if len(found) == 6:
                     return found
                 if len(q) > 1:
                     if file.lower().find(q, 0, len(file)) >= 0:
@@ -91,7 +91,7 @@ def create_files(cities):
             for key in mapped:
                 if new_name[0].lower() in mapped[key]:
                     cur_fol = key
-            file = path.join(path.join(root, cur_fol), new_name + '.json')
+            file = path.join(path.join(root, cur_fol), new_name + ", " + city["country"] + '.json')
             with open(file=file, mode='w', encoding='utf-8') as f:
                 dump(city, f)
                 f.close()
