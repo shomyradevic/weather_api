@@ -13,11 +13,12 @@
       <div class="hero-body">
           <div class="container">
               <h1 class="title">What's the temperature in your city?</h1>
+              <div id="loc"></div>
           </div>
       </div>
   </section>
   <section class="section">
-      <div class="container cont">
+      <div class="container">
 
         {% for msg in messages %}
             <div id="alr" class="alert alert-{{ msg.tags }}">
@@ -37,6 +38,61 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script>
+
+$(document).ready(
+    function(){
+        getloc();
+    }
+);
+
+let p = document.getElementById("loc");
+
+
+function show(position){
+    let xy = {"Latitude": null, "Longitude": null};
+    xy.Latitude = position.coords.latitude;
+    xy.Longitude = position.coords.longitude;
+    if(xy.Latitude && xy.Longitude){
+        $.ajax({
+            type: "GET",
+            url: "{% url 'location' %}",
+            data: xy,
+            dataType: "JSON",
+            success: function(response){
+                $("#loc").html(response.location.name);
+            },
+            error: function(error){
+                console.log("error: " + error.toString());
+            }
+        });
+    }
+}
+
+function error(err){
+    switch(err.code){
+        case err.PERMISSION_DENIED:
+            p.innerHTML = "User denied the request for Geolocation";
+            break;
+        case error.POSITION_UNAVAILABLE:
+            p.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            p.innerHTML = "The request to get user location timed out."
+            break;
+         case error.UNKNOWN_ERROR:
+            p.innerHTML = "An unknown error occurred."
+            break;
+    }
+};
+
+function getloc(){
+    if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(show, error);
+    }else
+        p.innerHTML = "Location not supported in this browser";
+};
+
+
   $("#cityQ").keyup(function(){
       var query = document.querySelector("#cityQ").value;
       $.ajax({

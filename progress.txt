@@ -6,3 +6,7 @@
 - old json_files =  161,810 files
 - new json_files = 168,647 files -> It works!!! Belgrade, RS/BE/US exists!
 - Code classificates cities in city.json without errors.
+- search/ path is engineered well. Ajax and NoAjax requests are regulated.
+
+<div id="loc">City: {{ location.name }}</div>
+{% comment %} This will not work. There must be both Render and Context of the template. {% endcomment %}
