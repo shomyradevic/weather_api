@@ -4,15 +4,28 @@
 <div class="box myBox">
     <article class="media">
         <div class="media-left">
-            <figure class="image is-50x50">
-                <img src="{{ data.icon }}" alt="Image">
-            </figure>
+            <img src="{{ data.icon }}" alt="Image"/>
         </div>
         <div>
-            <span class="title">{{ data.result.name }}, {{ data.result.sys.country }}</span>
+            <span class="title">{{ data.json.name }}, {{ data.json.sys.country }}</span>
             <br>
-            <span class="subtitle">{{ data.result.main.temp|add:'-273' }}</span>
-            <br> {{ data.result.weather.0.description|capfirst }}
+            <span class="subtitle">{{ data.json.main.temp|add:'-273' }}</span>
+            <br> {{ data.json.weather.0.description|capfirst }}
+
+            <hr/>
+            <table width="100%" style="background-color: #efffff; border: 10px solid transparent;">
+                <tr>
+                    <td><small>humidity: <b>{{ data.json.main.humidity }}%</b></small></td>
+                    <td style="text-align: right;"><small>sunrise: <b>{{ data.json.sys.sunrise }}</b></small></td>
+                </tr>
+                <tr>
+                    <td><small>wind speed: <b>{{ data.json.wind.speed }}m/s</b></small></td>
+                    <td style="text-align: right;"><small>sunset: <b>{{ data.json.sys.sunset }}</b></small></td>
+                </tr>
+                <tr>
+                    <td><small>pressure: <b>{{ data.json.main.pressure }} mbar</b></small></td>
+                </tr>
+            </table>
         </div>
     </article>
 </div>

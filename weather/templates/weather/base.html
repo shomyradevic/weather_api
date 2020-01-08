@@ -7,19 +7,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'weather/wstyle.css' %}"/>
+    <title>Weather-APPI</title>
 </head>
 <body>
-  <section class="hero is-primary bg-steel">
+  <section class="hero is-primary nav">
       <div class="hero-body">
           <div class="container">
               <h1 class="title">What's the temperature in your city?</h1>
-              <div id="loc"></div>
+                <article class="media">
+                    <div class="media-left">
+                        <figure class="image is-50x50">
+                            <img id="Wimage" src="" alt="Weather">
+                        </figure>
+                    </div>
+                    <div>
+                        <span id="Cname" class="title"></span>
+                        <br>
+                        <span id="Temp" class="subtitle"></span>
+                        <br>
+                    </div>
+                </article>
           </div>
       </div>
   </section>
   <section class="section">
       <div class="container">
-
         {% for msg in messages %}
             <div id="alr" class="alert alert-{{ msg.tags }}">
                 <p style="text-align: center;">{{ msg|capfirst }}.</p>
@@ -38,50 +50,52 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script>
-
+    
 $(document).ready(
     function(){
         getloc();
     }
 );
 
-let p = document.getElementById("loc");
-
-
 function show(position){
-    let xy = {"Latitude": null, "Longitude": null};
-    xy.Latitude = position.coords.latitude;
-    xy.Longitude = position.coords.longitude;
-    if(xy.Latitude && xy.Longitude){
+    let xy = {"Lat": null, "Lon": null};
+    xy.Lat = position.coords.latitude.toFixed(3);
+    xy.Lon = position.coords.longitude.toFixed(3);
+    if(xy.Lat && xy.Lon){
         $.ajax({
             type: "GET",
             url: "{% url 'location' %}",
             data: xy,
             dataType: "JSON",
             success: function(response){
-                $("#loc").html(response.location.name);
+                $("#Cname").html(response.data.name + ", " + response.data.sys.country);
+                $("#Temp").html(parseInt(response.data.main.temp - 273));
+                $("#Wimage").attr("src", response.Wimg)
             },
             error: function(error){
                 console.log("error: " + error.toString());
             }
         });
-    }
+    }else
+        $("#Wimage").attr("alt", "Could not find your city.");
 }
 
 function error(err){
+    var message = "";
     switch(err.code){
         case err.PERMISSION_DENIED:
-            p.innerHTML = "User denied the request for Geolocation";
+            message = "User denied the request for Geolocation";
             break;
         case error.POSITION_UNAVAILABLE:
-            p.innerHTML = "Location information is unavailable."
+            message = "Location information is unavailable.";
             break;
         case error.TIMEOUT:
-            p.innerHTML = "The request to get user location timed out."
+            message = "The request to get user location timed out.";
             break;
          case error.UNKNOWN_ERROR:
-            p.innerHTML = "An unknown error occurred."
+            message = "An unknown error occurred.";
             break;
+        $("#Wimage").attr("alt", message);
     }
 };
 
@@ -89,7 +103,7 @@ function getloc(){
     if(navigator.geolocation){
         navigator.geolocation.getCurrentPosition(show, error);
     }else
-        p.innerHTML = "Location not supported in this browser";
+        $("#Wimage").attr("alt", "Location not supported in this browser");
 };
 
 
@@ -101,16 +115,17 @@ function getloc(){
           data: {"query": query},
           dataType: "JSON",
           success: function(response){
-              if(response.result != "empty set"){
-                var show = "";
-                for(i = 0;i < response.result.length;i++){
-                    var link = "{% url 'detail' id=12345 %}".replace(/12345/, response.result[i]['id'].toString());
-                    show += "<div class='search-div'>";
-                    show += "<a class='search-link' href=\"" + link + "\">" + response.result[i]["name"];
-                    show += "</a><br></div><br>";
-                };
-                $("#searchR").html(show);
-              }
+              if(response.result != "empty set" && response.result.length){
+                    var show = "";
+                    for(i = 0;i < response.result.length;i++){
+                        var link = "{% url 'detail' id=12345 %}".replace(/12345/, response.result[i]['id'].toString());
+                        show += "<div class='search-div'>";
+                        show += "<a class='search-link' href=\"" + link + "\">" + response.result[i]["name"];
+                        show += "</a><br></div><br>";
+                    };
+                    $("#searchR").html(show);
+              }else
+                    $("#searchR").html("No results matching query.<br><br>");
           },
           error: function(error){
               console.log(error);

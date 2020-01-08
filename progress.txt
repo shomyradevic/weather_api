@@ -7,6 +7,9 @@
 - new json_files = 168,647 files -> It works!!! Belgrade, RS/BE/US exists!
 - Code classificates cities in city.json without errors.
 - search/ path is engineered well. Ajax and NoAjax requests are regulated.
-
-<div id="loc">City: {{ location.name }}</div>
-{% comment %} This will not work. There must be both Render and Context of the template. {% endcomment %}
+- timezone problem:
+    sunset and sunrise are exposed locally, from my local datetime. It means that, currently in LA, 
+    sunrise is at about 15:31:00 and sunset at about 21:48:00, which is not correct. 'timezone' key in API
+    response can be positive or negative (It's a offset in seconds). We can use it to process our 
+    sunrise and sunset data, and then return it to client. https://www.epochconverter.com/timezones
+- In navbar, add remaining functionalities ( ones at detail template ).

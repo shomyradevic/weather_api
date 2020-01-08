@@ -1,38 +1,10 @@
-button.search:hover{
-    background-color: #dcdcdc;
-}
-
-ul.ajax{
-    list-style: none;
-}
-
 body {
-  background: #fafafa;
+  background: #fafafaec;
   color: #333333;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  color: #444444;
-}
-
-ul {
-  margin: 0;
-}
-
-.bg-steel {
+.nav {
   background-color: #0097ff !important;
-}
-
-.site-header .navbar-nav .nav-link {
-  color: #cbd5db;
-}
-
-.site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
-}
-
-.site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
 }
 
 .content-section {
@@ -41,47 +13,6 @@ ul {
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
-}
-
-.article-title {
-  color: #444444;
-}
-
-a.article-title:hover {
-  color: #428bca;
-  text-decoration: none;
-}
-
-.article-content {
-  white-space: pre-line;
-}
-
-.article-img {
-  height: 65px;
-  width: 65px;
-  margin-right: 16px;
-}
-
-.article-metadata {
-  padding-bottom: 1px;
-  margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
-}
-
-.article-metadata a:hover {
-  color: #333;
-  text-decoration: none;
-}
-
-.article-svg {
-  width: 25px;
-  height: 25px;
-  vertical-align: middle;
-}
-
-.account-heading {
-  font-size: 2.5rem;
-  color: #303030;
 }
 
 input.cityname {
@@ -121,15 +52,11 @@ div#searchR {
 
 .myBox {
   margin: 0 auto;
-  width: 30%;
+  width: 40%;
 }
 
 #alr {
   border-radius: 5%;
   width: 33%;
   margin: 0 auto;
-}
-
-.cont {
-  display: block;
 }
