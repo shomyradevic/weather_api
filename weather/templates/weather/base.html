@@ -13,7 +13,11 @@
   <section class="hero is-primary nav">
       <div class="hero-body">
           <div class="container">
-              <h1 class="title">What's the temperature in your city?</h1>
+              <div id="infoTimer">
+                <small class="title">What's the temperature in your city?</small>
+                <small id='timer' class="details"></small>
+              </div>
+              <br>
                 <article class="media">
                     <div class="media-left">
                         <figure class="image is-50x50">
@@ -25,6 +29,11 @@
                         <br>
                         <span id="Temp" class="subtitle"></span>
                         <br>
+                    </div>
+                    <div class="media-right details">
+                        <small id="humm">Humidity: </small><br>
+                        <small id="winds">Wind speed: </small><br>
+                        <small id="press">Pressure: </small>
                     </div>
                 </article>
           </div>
@@ -39,7 +48,8 @@
         {% endfor %}
         <br>
           <div class="center">
-            <input class="cityname" type="text" id="cityQ" placeholder="Type in city..." size="50%"/><br><br>
+            <input class="form-control cityname" type="text" 
+            id="cityQ" placeholder="Search over 160.000 locations around the world..."/><br><br>
             <div id="searchR"></div>
               {% block content %} {% endblock %}
           </div>
@@ -50,9 +60,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script>
-    
+
+setInterval(refresh_timer, 1000);
+
 $(document).ready(
     function(){
+        refresh_timer();
         getloc();
     }
 );
@@ -68,9 +81,17 @@ function show(position){
             data: xy,
             dataType: "JSON",
             success: function(response){
+                var humidity = $("#humm");
+                var wind_speed = $("#winds");
+                var pressure =  $("#press");
+                const d = response.data.weather[0].description;
+                const description = d.charAt(0).toUpperCase() + d.slice(1);
                 $("#Cname").html(response.data.name + ", " + response.data.sys.country);
-                $("#Temp").html(parseInt(response.data.main.temp - 273));
+                $("#Temp").html(parseInt(response.data.main.temp - 273) + ", " + description);
                 $("#Wimage").attr("src", response.Wimg)
+                humidity.html(humidity.text() + response.data.main.humidity + "%");
+                wind_speed.html(wind_speed.text() + response.data.wind.speed + "m/s");
+                pressure.html(pressure.text() + response.data.main.pressure + " mbar")
             },
             error: function(error){
                 console.log("error: " + error.toString());
@@ -107,7 +128,7 @@ function getloc(){
 };
 
 
-  $("#cityQ").keyup(function(){
+$("#cityQ").keyup(function(){
       var query = document.querySelector("#cityQ").value;
       $.ajax({
           type: "GET",
@@ -120,17 +141,23 @@ function getloc(){
                     for(i = 0;i < response.result.length;i++){
                         var link = "{% url 'detail' id=12345 %}".replace(/12345/, response.result[i]['id'].toString());
                         show += "<div class='search-div'>";
-                        show += "<a class='search-link' href=\"" + link + "\">" + response.result[i]["name"];
-                        show += "</a><br></div><br>";
+                        show += "<a href=\"" + link + "\">" + response.result[i]["name"] +"</a><br></div><br>";
                     };
                     $("#searchR").html(show);
               }else
-                    $("#searchR").html("No results matching query.<br><br>");
+                    $("#searchR").html("<div class='info-div'><p>No results matching query</p></div><br><br>");
           },
           error: function(error){
               console.log(error);
           }
       });
   });
+
+
+function refresh_timer(){
+     var d = new Date();
+     $("#timer").html(d.toLocaleTimeString())
+ }
+
 </script>
 </html>

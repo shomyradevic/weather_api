@@ -2,31 +2,12 @@ from django.shortcuts import render, redirect
 from requests import get
 from json import load
 from django.http import JsonResponse
-from datetime import datetime, timedelta
 from .search import search_query
 from django.contrib.messages import warning
+from .help import process_data, log
 
 
 API_KEY = ""
-
-
-def process_data(data: dict):
-    date_and_time = datetime.utcfromtimestamp(data["json"]["sys"]["sunrise"])
-    just_time = date_and_time.strftime("%H:%M:%S")
-    data["json"]["sys"]["sunrise"] = just_time 
-    #Sunrise and Sunset
-    date_and_time = datetime.utcfromtimestamp(data["json"]["sys"]["sunset"])
-    just_time = date_and_time.strftime("%H:%M:%S")
-    data["json"]["sys"]["sunset"] = just_time
-
-    #data["json"]["timezone"] -= timedelta(seconds=3600)
-    return data
-
-
-def log(value: str):
-    with open(file="log.log", mode="a", encoding="utf-8") as f:
-        f.write(str(datetime.now()) + " - " + value + "\n")
-        f.close()
 
 
 def set_key():
