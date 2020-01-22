@@ -6,4 +6,7 @@ Django weather application:
 
 Prepare steps:
 - Locate yourself in app root directory (.../weather_api/)
-- 
+- pip install -r requirement.txt
+- python initialize.py (this will take several minutes)
+- python manage.py runserver portnumber
+- Enjoy!
