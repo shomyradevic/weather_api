@@ -5,6 +5,5 @@ Django weather application:
 - Technologies: Python(Django), JavaScript(jQuery, AJAX), HTML, CSS.
 
 Prepare steps:
-- s
-- s
-- s
+- Locate yourself in app root directory (.../weather_api/)
+- 
